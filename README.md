@@ -12,13 +12,14 @@ This section presents **VulTriNet**, an efficient and novel model for source cod
 # The Step to Execute this
 The CodeBERT model can download from:https://huggingface.co/. <br> 
 The code to generate AST can down load from:https://github.com/fabsx00/codesensor or Joern. <br> 
-Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),the environment is similer to it. <br> 
+Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),the environment is similar to it. <br> 
 
 **Step 1: Code normalization**
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
 ``` 
 python ./normalization.py -i ./data/sard
 ```
+<br> 
 
 **Step 2: Generate pdgs with the help of joern**
 Prepare the environment refering to: joern,here we use 1.1.1000
@@ -32,14 +33,16 @@ python joern_graph_gen.py  -i ./data/sard/No-Vul -o ./data/sard/bins/No-Vul -t p
 ```
 # then generate pdgs (.dot files)
 python joern_graph_gen.py  -i ./data/sard/bins/Vul -o ./data/sard/pdgs/Vul -t export -r pdg
-python joern_graph_gen.py  -i ./data/sard/bins/Vul -o ./data/sard/pdgs/No-Vul -t export -r pdg
+python joern_graph_gen.py  -i ./data/sard/bins/No-Vul -o ./data/sard/pdgs/No-Vul -t export -r pdg
 ```
+<br> 
 
 **Step 3: Train a sent2vec model**
 **Refer to sent2vec**
 ``` 
 ./fasttext sent2vec -input ./data/data.txt -output ./data/data_model -minCount 8 -dim 128 -epoch 9 -lr 0.2 -wordNgrams 2 -loss ns -neg 10 -thread 20 -t 0.000005 -dropoutK 4 -minCountLabel 20 -bucket 4000000 -maxVocabSize 750000 -numCheckPoints 10
 ``` 
+<br> 
 
 **Step 4: Generate images from the pdgs**
 Generate Images from the pdgs with ImageGeneration.py, this step will output a .pkl file for each .dot file.
@@ -48,6 +51,8 @@ python ImageGeneration.py -i ./data/sard/pdgs/Vul -o ./data/sard/outputs/Vul -m 
 python ImageGeneration.py -i ./data/sard/pdgs/No-Vul -o ./data/sard/outputs/No-Vul  -m ./data/data_model.bin
 ```
 
+<br> 
+
 **Step 5: Integrate the data and divide the training and testing datasets**
 Integrate the data and divide the training and testing datasets
 
@@ -55,8 +60,9 @@ Integrate the data and divide the training and testing datasets
 # n denotes the number of kfold, i.e., n=10 then the training set and test set are divided according to 9:1 and 10 sets of experiments will be performed
 python split_data.py -i ./data/sard/outputs -o ./data/sard/pkl -n 5
 ```
+<br> 
 
-Step 6: Train with CNN
+**Step 6: Train with CNN**
 ``` 
 python main.py -i ./data/sard/pkl
 ``` 
