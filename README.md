@@ -15,13 +15,15 @@ The code to generate AST can down load from:https://github.com/fabsx00/codesenso
 Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),the environment is similar to it. <br> 
 
 **Step 1: Code normalization**
+
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
 ``` 
 python ./normalization.py -i ./data/sard
 ```
-<br> 
+
 
 **Step 2: Generate pdgs with the help of joern**
+
 Prepare the environment refering to: joern,here we use 1.1.1000
 
 ```
@@ -35,25 +37,27 @@ python joern_graph_gen.py  -i ./data/sard/No-Vul -o ./data/sard/bins/No-Vul -t p
 python joern_graph_gen.py  -i ./data/sard/bins/Vul -o ./data/sard/pdgs/Vul -t export -r pdg
 python joern_graph_gen.py  -i ./data/sard/bins/No-Vul -o ./data/sard/pdgs/No-Vul -t export -r pdg
 ```
-<br> 
+
 
 **Step 3: Train a sent2vec model**
+
 **Refer to sent2vec**
 ``` 
 ./fasttext sent2vec -input ./data/data.txt -output ./data/data_model -minCount 8 -dim 128 -epoch 9 -lr 0.2 -wordNgrams 2 -loss ns -neg 10 -thread 20 -t 0.000005 -dropoutK 4 -minCountLabel 20 -bucket 4000000 -maxVocabSize 750000 -numCheckPoints 10
 ``` 
-<br> 
+
 
 **Step 4: Generate images from the pdgs**
+
 Generate Images from the pdgs with ImageGeneration.py, this step will output a .pkl file for each .dot file.
 ``` 
 python ImageGeneration.py -i ./data/sard/pdgs/Vul -o ./data/sard/outputs/Vul -m ./data/data_model.bin
 python ImageGeneration.py -i ./data/sard/pdgs/No-Vul -o ./data/sard/outputs/No-Vul  -m ./data/data_model.bin
 ```
 
-<br> 
 
 **Step 5: Integrate the data and divide the training and testing datasets**
+
 Integrate the data and divide the training and testing datasets
 
 ```
