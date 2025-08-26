@@ -5,6 +5,6 @@ Software vulnerabilities represent a critical concern in the domain of cybersecu
 
 # Design of the Approach
 
-
+![overview](https://github.com/madman228/VulTriNet/blob/b90d3839eb85b2462f77c9f66b102a709fe0ccd4/overview_twolayers.jpg)
 
 This section presents **VulTriNet**, an efficient and novel model for source code vulnerability detection. As shown in Figure, VulTriNet consists of three steps: function transformation, embedding vector generation, and classification. In **Step 1**, the function transformation explains how the function is transformed. Here, the code is cleaned up to produce a text representation, which is then further normalized to generate the function's AST and PDG. In **Step 2**, embedding vector generation converts the function's representation into a vector. For the function's AST, we apply depth-first traversal (DFT) and use Word2Vec to generate the vector representation. The PDG is embedded using Sent2Vec, while the code text is processed through the CodeBERT model. In **Step 3**, we input the generated tri-channel image into the CNN for classification. The classification performs binary classification to determine whether the function contains any vulnerabilities.
