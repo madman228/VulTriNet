@@ -16,6 +16,7 @@ Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),the envi
 
 **Step 1: Code normalization**
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
+
 ``` python ./normalization.py -i ./data/sard``` 
 
 **Step 2: Generate pdgs with the help of joern**
