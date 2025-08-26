@@ -11,7 +11,7 @@ This section presents **VulTriNet**, an efficient and novel model for source cod
 
 # The Step to Execute this
 The CodeBERT model can download from:https://huggingface.co/. <br> 
-The code to generate AST can down load from:https://github.com/fabsx00/codesensor or use Joern. <br> 
+The code to generate AST can download from:https://github.com/fabsx00/codesensor or use Joern. <br> 
 Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),  the environment is similar to it. <br> 
 
 **Step 1: Code normalization**
