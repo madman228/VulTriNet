@@ -18,12 +18,12 @@ Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),the envi
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
 ``` python ./normalization.py -i ./data/sard``` 
 
-Step 2: Generate pdgs with the help of joern
+**Step 2: Generate pdgs with the help of joern**
 Prepare the environment refering to: joern,here we use 1.1.1000
 
 # first generate .bin files
-``` python joern_graph_gen.py  -i ./data/sard/Vul -o ./data/sard/bins/Vul -t parse``` 
-``` python joern_graph_gen.py  -i ./data/sard/No-Vul -o ./data/sard/bins/No-Vul -t parse``` 
+``` python joern_graph_gen.py  -i ./data/sard/Vul -o ./data/sard/bins/Vul -t parse
+ python joern_graph_gen.py  -i ./data/sard/No-Vul -o ./data/sard/bins/No-Vul -t parse``` 
 
 
 # then generate pdgs (.dot files)
