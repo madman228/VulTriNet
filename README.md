@@ -10,15 +10,16 @@ Software vulnerabilities represent a critical concern in the domain of cybersecu
 This section presents **VulTriNet**, an efficient and novel model for source code vulnerability detection. As shown in Figure, VulTriNet consists of three steps: function transformation, embedding vector generation, and classification. In **Step 1**, the function transformation explains how the function is transformed. Here, the code is cleaned up to produce a text representation, which is then further normalized to generate the function's AST and PDG. In **Step 2**, embedding vector generation converts the function's representation into a vector. For the function's AST, we apply depth-first traversal (DFT) and use Word2Vec to generate the vector representation. The PDG is embedded using Sent2Vec, while the code text is processed through the CodeBERT model. In **Step 3**, we input the generated tri-channel image into the CNN for classification. The classification performs binary classification to determine whether the function contains any vulnerabilities.
 
 # The Step to Execute Code
-The CodeBERT model can download from:https://huggingface.co/. <br> 
+The CodeBERT model can download from:https://huggingface.co/.  The BERT_whitening code can find from https://github.com/autoliuweijie/BERT-whitening-pytorch<br> 
 The code to generate AST can download from:https://github.com/fabsx00/codesensor or use Joern. <br> 
 Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),  the environment is similar to it. <br> 
 
 **Step 1: Code normalization**
 
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
-``` 
-python ./normalization.py -i ./data/sard
+```
+#Taking sard as an example, suppose there is a folder under data that stores sard
+python ./normalization.py -i ./data/sard/normalization
 ```
 
 
@@ -28,8 +29,8 @@ Prepare the environment refering to: joern,here we use 1.1.1000
 
 ```
 # first generate .bin files
-python joern_graph_gen.py  -i ./data/sard/Vul -o ./data/sard/bins/Vul -t parse
-python joern_graph_gen.py  -i ./data/sard/No-Vul -o ./data/sard/bins/No-Vul -t parse 
+python joern_graph_gen.py  -i ./data/sard/normalization/Vul -o ./data/sard/bins/Vul -t parse
+python joern_graph_gen.py  -i ./data/sard/normalization/No-Vul -o ./data/sard/bins/No-Vul -t parse 
 ``` 
 
 ```
@@ -42,19 +43,21 @@ python joern_graph_gen.py  -i ./data/sard/bins/No-Vul -o ./data/sard/pdgs/No-Vul
 **Step 3: Train a sent2vec model**
 
 **Refer to sent2vec**
-``` 
+```
+#Choose your own parameters
 ./fasttext sent2vec -input ./data/data.txt -output ./data/data_model -minCount 8 -dim 128 -epoch 9 -lr 0.2 -wordNgrams 2 -loss ns -neg 10 -thread 20 -t 0.000005 -dropoutK 4 -minCountLabel 20 -bucket 4000000 -maxVocabSize 750000 -numCheckPoints 10
 ``` 
 
 
 **Step 4: Generate images from the pdgs**
+Run codesensor and BERT-whitening first.Here we save the processed files in. npy format and summarize them.(Use clean version data instead of normalized data） <br>
 
 Generate Images from the pdgs with ImageGeneration.py, this step will output a .pkl file for each .dot file.
 ``` 
 python ImageGeneration.py -i ./data/sard/pdgs/Vul -o ./data/sard/outputs/Vul -m ./data/data_model.bin
 python ImageGeneration.py -i ./data/sard/pdgs/No-Vul -o ./data/sard/outputs/No-Vul  -m ./data/data_model.bin
 ```
-
+ 
 
 **Step 5: Integrate the data and divide the training and testing datasets**
 
@@ -64,9 +67,9 @@ Integrate the data and divide the training and testing datasets
 # n denotes the number of kfold, i.e., n=10 then the training set and test set are divided according to 9:1 and 10 sets of experiments will be performed
 python split_data.py -i ./data/sard/outputs -o ./data/sard/pkl -n 5
 ```
-<br> 
 
-**Step 6: Train with CNN**
+
+**Step 6: Train with model**
 ``` 
 python main.py -i ./data/sard/pkl
 ``` 
