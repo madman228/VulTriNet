@@ -19,6 +19,10 @@ Here,our model is built on VulCNN(https://github.com/CGCL-codes/VulCNN),  the en
 Normalize the code with normalization.py (This operation will overwrite the data file, please make a backup)
 ```
 #Taking sard as an example, suppose there is a folder under data that stores sard data
+#Remove comment and empty lines for all
+python ./RemoveComment.py your_path ./data/sard
+#For graph part use normalization
+python ./RemoveComment.py your_path ./data/sard/normalization
 python ./normalization.py -i ./data/sard/normalization
 ```
 
