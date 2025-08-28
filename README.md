@@ -29,7 +29,7 @@ python ./normalization.py -i ./data/sard/normalization
 
 **Step 2: Generate pdgs with the help of joern**
 
-Prepare the environment refering to: joern,here we use 1.1.1000
+Prepare the environment refering to: joern,here we use 1.1.1100
 
 ```
 # first generate .bin files
@@ -54,6 +54,7 @@ python joern_graph_gen.py  -i ./data/sard/bins/No-Vul -o ./data/sard/pdgs/No-Vul
 
 
 **Step 4: Generate images from the pdgs**
+
 Run codesensor and BERT-whitening first.Here we save the processed files in. npy format and summarize them.(Use clean version data instead of normalized data） <br>
 
 Generate Images from the pdgs with ImageGeneration.py, this step will output a .pkl file for each .dot file.
