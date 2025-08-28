@@ -58,7 +58,11 @@ python joern_graph_gen.py  -i ./data/sard/bins/No-Vul -o ./data/sard/pdgs/No-Vul
 Run codesensor and BERT-whitening first.Here we save the processed files in. npy format and summarize them.(Use clean version data instead of normalized data） <br>
 
 Generate Images from the pdgs with ImageGeneration.py, this step will output a .pkl file for each .dot file.
-``` 
+```
+#choose your own path parameters in the file and execute it
+python ImageGeneration.py
+
+#if you like,you can edit the code to use args
 python ImageGeneration.py -i ./data/sard/pdgs/Vul -o ./data/sard/outputs/Vul -m ./data/data_model.bin
 python ImageGeneration.py -i ./data/sard/pdgs/No-Vul -o ./data/sard/outputs/No-Vul  -m ./data/data_model.bin
 ```
@@ -75,6 +79,10 @@ python split_data.py -i ./data/sard/outputs -o ./data/sard/pkl -n 5
 
 
 **Step 6: Train with model**
-``` 
+```
+#choose your own data_path
+python main.py
+
+#if you like,you can easily modify the code to args
 python main.py -i ./data/sard/pkl
 ``` 
